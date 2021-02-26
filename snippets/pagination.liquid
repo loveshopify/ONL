@@ -1,0 +1,34 @@
+{% comment %}
+
+  This snippet renders a custom widget based on the current 'paginate' context,
+  defined in { % paginate XXXX by 5 % } tags wrapping the content.
+
+  Replace Text Example:
+    <div class="pagination">
+      {{ paginate | default_pagination | replace: 'Previous', 'Newer articles' | replace: 'Next', 'Older articles'  }}
+    </div>
+
+  More information:
+   - http://docs.shopify.com/themes/liquid-variables/paginate
+
+{% endcomment %}
+
+  <div class="sixteen columns">
+    <div class="section clearfix rt_six">
+      <div class="paginate">
+       
+        {% if paginate.pages > 1 %}
+        <div class="left_number">
+          {% assign count = paginate.pages %}
+          {% for part in (1..count) %}
+          <li {% if paginate.current_page == part %}class="active"{% endif %}><a href="{{ collection.url }}?page={{ forloop.index }}">{{ forloop.index }}</a></li>
+          {% endfor %}
+        </div>
+        <div class="next_prev">
+          <a class="prev" href="{{ paginate.previous.url }}">prev</a>
+          <a class="next" href="{{ paginate.next.url }}">next</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>

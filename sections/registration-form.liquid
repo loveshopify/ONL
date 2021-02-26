@@ -1,0 +1,78 @@
+<a name="pagecontent" id="pagecontent"></a>
+
+<div class="sixteen columns clearfix collection_nav">
+  <h1 class="center">{{ 'customer.register.title' | t }}</h1>
+  <div class="feature_divider"></div>
+</div>
+
+<div class="section clearfix">
+  <div class="eight columns offset-by-four equal-columns--outside-trim">
+    <br class="clear" />
+    <div id="customer">
+      <!-- Create Customer -->
+      <div id="create-customer">
+
+        {% form 'create_customer' %}
+          {{ form.errors | default_errors }}
+
+        <div class="eight columns alpha">
+          <div id="first_name" class="clearfix large_form">
+            <label for="first_name" class="login">{{ 'customer.register.first_name' | t }}</label>
+            <input type="text" value="" placeholder="Your First Name" name="customer[first_name]" id="first_name" class="large" size="30" />
+          </div>
+      </div>
+
+        <div class="eight columns omega">
+          <div id="last_name" class="clearfix large_form">
+            <label for="last_name" class="login">{{ 'customer.register.last_name' | t }}</label>
+            <input type="text" value="" placeholder="Your Last Name" name="customer[last_name]" id="last_name" class="large" size="30" />
+          </div>
+        </div>
+
+          <div id="email" class="clearfix large_form">
+            <label for="email" class="login">{{ 'customer.register.email' | t }}</label>
+            <input type="email" value="" placeholder="Your Email" name="customer[email]" id="email" class="large" size="30" />
+          </div>
+
+          <div id="password" class="clearfix large_form">
+            <label for="password" class="login">{{ 'customer.register.password' | t }}</label>
+            <input type="password" value="" placeholder="Your Password" name="customer[password]" id="password" class="large password" size="30" />
+          </div>
+
+          {% if section.settings.text %}
+            {{ section.settings.text }}
+          {% endif %}
+
+          <div class="acceptsMarketing">
+            <input type="checkbox" id="customer[accepts_marketing]" name="customer[accepts_marketing]">
+            <label for="customer[accepts_marketing]">{{ 'customer.register.accepts_marketing' | t }}</label>
+          </div>
+
+          <div class="action_bottom">
+            <input id="inverted" class="btn action_button" type="submit" value="{{ 'customer.register.sign_up' | t }}" />
+            <p class="" style="    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;">
+              {{ 'customer.register.returning_customer_label' | t }} {{ 'customer.register.sign_in_html' | t | customer_login_link }}
+            </p>
+          </div>
+
+        {% endform %}
+      </div><!-- /#create-customer -->
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Register",
+    "class": "register-section",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+      }
+    ]
+  }
+{% endschema %}

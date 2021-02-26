@@ -1,0 +1,5 @@
+$(document).on('click', '.homepage-product-slider .quick_shop, .product-list .quick_shop', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    document.location.href = $(this).data('url');
+});

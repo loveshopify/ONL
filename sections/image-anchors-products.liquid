@@ -1,0 +1,295 @@
+{% comment %}
+** Image with anchors and products **
+- Draggable section
+- Uses blocks
+{% endcomment %}
+{% if section.settings.frontpage_grid_style == false %}
+  <div class="container">
+    <div class="sixteen columns">
+{% endif %}
+    <div class="image-with-text
+                featured_collections
+                clearfix 
+                full-width--{{ section.settings.frontpage_grid_style }} image-anchors-products">
+        
+          <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <div class="featured-link--half featured-link--image featured-link--margin">
+              <div class="featured-link--wrap">
+                {% if section.settings.image %}
+                    <img  src="{{ section.settings.image | img_url: '100x' }}"
+                          alt="{% if section.settings.image.alt != blank %}{{ section.settings.image.alt | escape }}{% else %}{{ block.settings.title | escape }}{% endif %}"
+                          class="lazyload full-width-image image-crop--{{ section.settings.image_crop }} {{ settings.image_loading_style }}"
+                          data-sizes="auto"
+                          data-src="{{ section.settings.image | img_url: '1600x' }}"
+                          data-srcset=" {{ section.settings.image | img_url: '400x' }} 400w,
+                                        {{ section.settings.image | img_url: '500x' }} 500w,
+                                        {{ section.settings.image | img_url: '600x' }} 600w,
+                                        {{ section.settings.image | img_url: '700x' }} 700w,
+                                        {{ section.settings.image | img_url: '800x' }} 800w,
+                                        {{ section.settings.image | img_url: '900x' }} 900w,
+                                        {{ section.settings.image | img_url: '1200x' }} 1200w,
+                                        {{ section.settings.image | img_url: '1600x' }} 1600w"
+                        />
+                
+                
+                  {% else %}
+                    {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                    {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+                  {% endif %}
+                
+                	{% if section.blocks.size > 0 %}
+                        {% for block in section.blocks %}
+                        <span class="img_anchor {% if forloop.first %}active{% endif %}" data-productgroupid="{{block.id}}" style="left: {{ block.settings.left }}%; top: {{block.settings.top}}%"></span>
+                        {% endfor %}
+                    {% endif %}
+              </div>
+            </div>
+            <div class="featured-link--half block--{{ block.id }}">
+              <div class="info">
+                {% for block in section.blocks %}
+                	{% assign product_item1 = all_products[block.settings.product_1] %}
+                	{% assign product_item2 = all_products[block.settings.product_2] %}
+                	{% assign product_item3 = all_products[block.settings.product_3] %}
+                	{% assign number_of_products = section.settings.number_of_products | plus: 0 %}
+                	
+                
+                    <div id="{{block.id}}" class="anchor-products-wrapper {% if forloop.index == 1%} active {% endif %}">
+                      <div class="text-align--left">
+                        <p class="collection_title">
+                          {{ block.settings.title }}
+                        </p>
+                        <div class="description">{{ block.settings.text }}</div>
+                      </div>
+                        
+                      <div class="container">
+                      <div id="anchor-product-{{product_item1.id}}" class="anchor-product text-align--left">
+                        <a href="{{ product_item1.url }}"> 
+                        <div class="four columns alpha">
+                            <img src="{{ product_item1.featured_image.src | img_url: '300x' }}" />   
+                          </div>
+                          
+                          <div class="twelve columns omega">
+                          <h4 class="product_name" itemprop="name">{{ product_item1.title }}</h4>
+                          <span class="shopify-product-reviews-badge" data-id="{{ product_item1.id }}"></span>
+                          <span itemprop="price" content="{{product_item1.price}}" class="">
+                            <span class="current_price ">
+                                <span class="money">{{ product_item1.price | money }}</span>
+                            </span>
+                          </span>
+                      </div>
+                        </a>
+                      </div>
+                      </div>
+                      
+                      {% if number_of_products >= 2 %}
+                      <div class="container">
+                      <div id="anchor-product-{{product_item2.id}}" class="anchor-product text-align--left">
+                        <a href="{{ product_item2.url }}">
+                          <div class="four columns alpha">
+                            <img src="{{ product_item2.featured_image.src | img_url: '300x' }}" />   
+                          </div>
+                          
+                          <div class="twelve columns omega">
+                          <h4 class="product_name" itemprop="name">{{ product_item2.title }}</h4>
+                          <span class="shopify-product-reviews-badge" data-id="{{ product_item2.id }}"></span>
+                          <span itemprop="price" content="{{product_item2.price}}" class="">
+                            <span class="current_price ">
+                                <span class="money">{{ product_item2.price | money }}</span>
+                            </span>
+                          </span>
+                      </div> 
+                        </a>
+                      </div>
+                      </div>
+                      {% endif %}
+                      {% if number_of_products == 3 %}
+                      <div class="container">
+                      <div id="anchor-product-{{product_item3.id}}" class="anchor-product text-align--left">
+                        <a href="{{ product_item3.url }}">
+                          <div class="four columns alpha">
+                            <img src="{{ product_item3.featured_image.src | img_url: '300x' }}" />   
+                          </div>
+                          
+                          <div class="twelve columns omega">
+                          <h4 class="product_name" itemprop="name">{{ product_item3.title }}</h4>
+                          <span class="shopify-product-reviews-badge" data-id="{{ product_item3.id }}"></span>
+                          <span itemprop="price" content="{{product_item3.price}}" class="">
+                            <span class="current_price ">
+                                <span class="money">{{ product_item3.price | money }}</span>
+                            </span>
+                          </span>
+                      </div> 
+                        </a>
+                      </div>
+                      </div>
+                      {% endif %}
+                    </div>
+                {% endfor %}
+                
+              </div>
+            </div>
+          </section>
+    </div>
+{% if section.settings.frontpage_grid_style == false %}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+
+  {% for block in section.blocks %}
+    .block--{{ block.id }} {
+      background-color: {{ block.settings.bg_color }};
+    }
+
+    .block--{{ block.id }} .collection_title,
+    .block--{{ block.id }} p {
+      color: {{ block.settings.text_color }};
+    }
+
+    .block--{{ block.id }} a.button {
+      color: {{ block.settings.text_color }};
+      border-color: {{ block.settings.text_color }};
+    }
+  
+  {% endfor %}
+
+  {% if section.settings.frontpage_grid_style == false %}
+      #shopify-section-{{ section.id }} .featured-link--section {
+        margin-bottom: 3%;
+      }
+      @media only screen and (max-width: 480px) {
+        #shopify-section-{{ section.id }} .featured-link--section {
+          margin-bottom: 10%;
+        }
+      }
+
+      #shopify-section-{{ section.id }} .featured-link--half {
+        width: 45%;
+      }
+      #shopify-section-{{ section.id }} .featured-link--margin {
+        {% if section.settings.frontpage_image_position == 'right' %}
+          margin-left: 3%;
+        {% else %}
+          margin-left: 0;
+          margin-right: 3%;
+        {% endif %}
+      }
+      #shopify-section-{{ section.id }} .featured-link--section:nth-child(even) .featured-link--margin {
+        {% if section.settings.frontpage_image_position == 'right' %}
+          margin-left: 0;
+          margin-right: 3%;
+        {% else %}
+          margin-left: 3%;
+          margin-right: 0;
+        {% endif %}
+      }
+   {% endif %}
+  
+  {% if section.settings.background_color != blank %}
+  
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+  }
+  
+  {% endif %}
+  
+  
+</style>
+
+{% schema %}
+{
+  "name": "Image With Anchors",
+  "class": "image-with-anchors-products-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "frontpage_grid_style",
+      "label": "Wide display"
+    },
+	{
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1024 x 1024px recommended"
+    },
+    {
+      "type": "select",
+      "id": "number_of_products",
+      "label": "Products to show per anchor",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_anchor",
+      "name": "Products Anchor",
+      "settings": [
+		{
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Your headline"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Promotion description appears here.</p>"
+        },
+        {
+          	"id": "top",
+          	"type": "text",
+       		"label": "Top Position (%)"
+        },
+		{
+          	"id": "left",
+          	"type": "text",
+       		"label": "Left Position (%)"
+        },
+		{
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+		{
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+		{
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Image with anchors",
+    "category": "Image",
+    "blocks": [
+      {
+        "type": "product_anchor"
+      },
+		{
+        "type": "product_anchor"
+      }
+    ]
+  }]
+}
+{% endschema %}
